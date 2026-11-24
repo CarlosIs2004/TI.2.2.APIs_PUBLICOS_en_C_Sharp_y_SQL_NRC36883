@@ -1,0 +1,23 @@
+@{
+    ViewData["Title"] = "Consumo de API REST Countries";
+}
+
+<h2>Consumo de API REST Countries</h2>
+<p class="text-muted">ASP.NET Core MVC + Entity Framework Core + SQL Server</p>
+
+<a asp-action="Importar" class="btn btn-success mb-3">Importar Información</a>
+
+<hr />
+
+<h5>Importar un país por nombre (Actividad 1)</h5>
+<form asp-action="Buscar" method="post" class="row g-2 mb-3">
+    <div class="col-auto">
+        <input type="text" name="nombre" class="form-control" placeholder="Ej: ecuador" />
+    </div>
+    <div class="col-auto">
+        <button type="submit" class="btn btn-primary">Buscar</button>
+    </div>
+</form>
+
+<a asp-action="Lista" class="btn btn-outline-dark">Ver listado</a>
+<a asp-action="Reportes" class="btn btn-outline-info">Reportes</a>

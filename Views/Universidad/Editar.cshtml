@@ -1,0 +1,39 @@
+@model ApiPaisesMVC_SQLServer.Models.Universidad
+@{
+    ViewData["Title"] = "Editar Universidad";
+}
+
+<h2>Editar Universidad</h2>
+<hr />
+
+<div class="col-md-6">
+    <form asp-action="Editar" method="post">
+        <input type="hidden" asp-for="Id" />
+        <div class="mb-3">
+            <label asp-for="Nombre" class="form-label">Nombre</label>
+            <input asp-for="Nombre" class="form-control" />
+            <span asp-validation-for="Nombre" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="Dominio" class="form-label">Dominio</label>
+            <input asp-for="Dominio" class="form-control" />
+            <span asp-validation-for="Dominio" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="SitioWeb" class="form-label">Sitio Web</label>
+            <input asp-for="SitioWeb" class="form-control" />
+            <span asp-validation-for="SitioWeb" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="Pais" class="form-label">País</label>
+            <input asp-for="Pais" class="form-control" />
+            <span asp-validation-for="Pais" class="text-danger"></span>
+        </div>
+        <button type="submit" class="btn btn-warning">Actualizar</button>
+        <a asp-action="Lista" class="btn btn-secondary">Cancelar</a>
+    </form>
+</div>
+
+@section Scripts {
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+}

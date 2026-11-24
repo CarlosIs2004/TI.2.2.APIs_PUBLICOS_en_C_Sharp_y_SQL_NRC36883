@@ -1,0 +1,42 @@
+@model ApiPaisesMVC_SQLServer.Models.ReportesViewModel
+@{
+    ViewData["Title"] = "Reportes Estadísticos";
+}
+
+<h2>Reportes Estadísticos</h2>
+<p><a asp-action="Lista" class="btn btn-outline-secondary">Volver al listado</a></p>
+
+<!-- Reporte 2: País más poblado -->
+<h4>País más poblado</h4>
+@if (Model.PaisMasPoblado != null)
+{
+    <p>@Model.PaisMasPoblado.Nombre — @Model.PaisMasPoblado.Poblacion habitantes</p>
+}
+else
+{
+    <p class="text-muted">Sin datos</p>
+}
+
+<!-- Reporte 1: Cantidad de países por región -->
+<h4>Cantidad de países por región</h4>
+<table class="table table-bordered w-auto">
+    <thead><tr><th>Región</th><th>Total</th></tr></thead>
+    <tbody>
+        @foreach (var r in Model.PaisesPorRegion)
+        {
+            <tr><td>@r.Region</td><td>@r.Total</td></tr>
+        }
+    </tbody>
+</table>
+
+<!-- Reporte 3: Promedio poblacional por región -->
+<h4>Promedio poblacional por región</h4>
+<table class="table table-bordered w-auto">
+    <thead><tr><th>Región</th><th>Promedio</th></tr></thead>
+    <tbody>
+        @foreach (var r in Model.PromedioPorRegion)
+        {
+            <tr><td>@r.Region</td><td>@r.PromedioPoblacion.ToString("N0")</td></tr>
+        }
+    </tbody>
+</table>
