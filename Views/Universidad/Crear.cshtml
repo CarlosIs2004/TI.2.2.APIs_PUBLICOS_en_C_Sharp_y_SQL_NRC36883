@@ -1,0 +1,38 @@
+@model ApiPaisesMVC_SQLServer.Models.Universidad
+@{
+    ViewData["Title"] = "Agregar Universidad";
+}
+
+<h2>Agregar Universidad</h2>
+<hr />
+
+<div class="col-md-6">
+    <form asp-action="Crear" method="post">
+        <div class="mb-3">
+            <label asp-for="Nombre" class="form-label">Nombre</label>
+            <input asp-for="Nombre" class="form-control" />
+            <span asp-validation-for="Nombre" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="Dominio" class="form-label">Dominio</label>
+            <input asp-for="Dominio" class="form-control" />
+            <span asp-validation-for="Dominio" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="SitioWeb" class="form-label">Sitio Web</label>
+            <input asp-for="SitioWeb" class="form-control" />
+            <span asp-validation-for="SitioWeb" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="Pais" class="form-label">País</label>
+            <input asp-for="Pais" class="form-control" />
+            <span asp-validation-for="Pais" class="text-danger"></span>
+        </div>
+        <button type="submit" class="btn btn-success">Guardar</button>
+        <a asp-action="Lista" class="btn btn-secondary">Cancelar</a>
+    </form>
+</div>
+
+@section Scripts {
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+}

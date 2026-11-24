@@ -1,0 +1,36 @@
+@{
+    ViewData["Title"] = "Consumo de API Universidades";
+}
+
+<h2>Consumo de API de Universidades</h2>
+<p class="text-muted">Actividad Avanzada · API pública http://universities.hipolabs.com</p>
+
+<h5>Importar universidades por país</h5>
+<form asp-action="Importar" method="get" class="row g-2 mb-3">
+    <div class="col-auto">
+        <input type="text" name="pais" class="form-control" placeholder="Ej: Ecuador" />
+    </div>
+    <div class="col-auto">
+        <button type="submit" class="btn btn-success">Importar país</button>
+    </div>
+    <div class="col-12">
+        <small class="text-muted">Si dejas el campo vacío se importa <strong>Ecuador</strong> (como indica el documento).</small>
+    </div>
+</form>
+
+<hr />
+
+<h5>Buscar una universidad por nombre (BD primero, luego API)</h5>
+<form asp-action="Buscar" method="post" class="row g-2 mb-3">
+    <div class="col-auto">
+        <input type="text" name="nombre" class="form-control" placeholder="Ej: central" />
+    </div>
+    <div class="col-auto">
+        <input type="text" name="pais" class="form-control" placeholder="País (opcional)" />
+    </div>
+    <div class="col-auto">
+        <button type="submit" class="btn btn-primary">Buscar</button>
+    </div>
+</form>
+
+<a asp-action="Lista" class="btn btn-outline-dark">Ver listado</a>

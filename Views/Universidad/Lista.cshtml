@@ -1,0 +1,89 @@
+@model IEnumerable<ApiPaisesMVC_SQLServer.Models.Universidad>
+@{
+    ViewData["Title"] = "Listado de Universidades";
+    var paises = ViewBag.Paises as List<string> ?? new List<string>();
+}
+
+<h2>Listado de Universidades</h2>
+
+<p>
+    <a asp-action="Crear" class="btn btn-success">Agregar universidad</a>
+    <a asp-action="Index" class="btn btn-outline-secondary">Inicio</a>
+</p>
+
+<!-- Buscar por nombre: primero en SQL Server y, si no hay datos, en la API -->
+<form asp-action="Buscar" method="post" class="row g-2 mb-3">
+    <div class="col-auto">
+        <input type="text" name="nombre" class="form-control" placeholder="Buscar universidad (BD y API)" />
+    </div>
+    <div class="col-auto">
+        <input type="text" name="pais" class="form-control" placeholder="País (opcional)" />
+    </div>
+    <div class="col-auto">
+        <button type="submit" class="btn btn-primary">Buscar</button>
+    </div>
+</form>
+
+<!-- Filtros: búsqueda por nombre y filtro por país -->
+<form asp-action="Lista" method="get" class="row g-2 mb-3">
+    <div class="col-auto">
+        <input type="text" name="nombre" value="@ViewBag.Nombre" class="form-control" placeholder="Nombre" />
+    </div>
+    <div class="col-auto">
+        <select name="pais" class="form-select">
+            <option value="">-- Todos los países --</option>
+            @foreach (var p in paises)
+            {
+                if ((string?)ViewBag.Pais == p)
+                {
+                    <option value="@p" selected>@p</option>
+                }
+                else
+                {
+                    <option value="@p">@p</option>
+                }
+            }
+        </select>
+    </div>
+    <div class="col-auto">
+        <button type="submit" class="btn btn-primary">Buscar / Filtrar</button>
+        <a asp-action="Lista" class="btn btn-outline-secondary">Limpiar</a>
+    </div>
+</form>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Nombre</th>
+            <th>Dominio</th>
+            <th>Sitio Web</th>
+            <th>País</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Nombre</td>
+                <td>@item.Dominio</td>
+                <td><a href="@item.SitioWeb" target="_blank" rel="noopener">@item.SitioWeb</a></td>
+                <td>@item.Pais</td>
+                <td>
+                    <a asp-action="Editar" asp-route-id="@item.Id" class="btn btn-sm btn-warning">Editar</a>
+                    <a asp-action="Eliminar" asp-route-id="@item.Id" class="btn btn-sm btn-danger">Eliminar</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<!-- Vaciar la tabla: requiere escribir "eliminar" -->
+<form asp-action="Vaciar" method="post" class="row g-2 mt-3">
+    <div class="col-auto">
+        <input type="text" name="confirmacion" class="form-control" placeholder='Escribe "eliminar"' autocomplete="off" />
+    </div>
+    <div class="col-auto">
+        <button type="submit" class="btn btn-outline-danger">Vaciar base de datos</button>
+    </div>
+</form>
