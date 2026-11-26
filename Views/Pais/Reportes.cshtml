@@ -1,42 +1,96 @@
 @model ApiPaisesMVC_SQLServer.Models.ReportesViewModel
 @{
     ViewData["Title"] = "Reportes Estadísticos";
+
+    var porRegion = Model.PaisesPorRegion.OrderByDescending(r => r.Total).ToList();
+    var promedios = Model.PromedioPorRegion.OrderByDescending(r => r.PromedioPoblacion).ToList();
+    var totalPaises = porRegion.Sum(r => r.Total);
+    var maxTotal = porRegion.Count > 0 ? porRegion.Max(r => r.Total) : 0;
+    var maxPromedio = promedios.Count > 0 ? promedios.Max(r => r.PromedioPoblacion) : 0;
 }
 
-<h2>Reportes Estadísticos</h2>
-<p><a asp-action="Lista" class="btn btn-outline-secondary">Volver al listado</a></p>
+<div class="page-header">
+    <div>
+        <h2>Reportes Estadísticos</h2>
+        <p class="subtitle">Resumen de los países almacenados en la base de datos</p>
+    </div>
+    <a asp-action="Lista" class="btn btn-outline-secondary">Volver al listado</a>
+</div>
 
-<!-- Reporte 2: País más poblado -->
-<h4>País más poblado</h4>
-@if (Model.PaisMasPoblado != null)
+@if (totalPaises == 0 && Model.PaisMasPoblado == null)
 {
-    <p>@Model.PaisMasPoblado.Nombre — @Model.PaisMasPoblado.Poblacion habitantes</p>
+    <div class="app-card empty-state">
+        No hay datos para reportar. <a asp-action="Index">Importa información</a> primero.
+    </div>
 }
 else
 {
-    <p class="text-muted">Sin datos</p>
+    <!-- Indicadores -->
+    <div class="row g-3 mb-3">
+        <div class="col-6 col-lg-3">
+            <div class="app-card kpi h-100 mb-0">
+                <div class="kpi-label">Total de países</div>
+                <div class="kpi-value">@totalPaises.ToString("N0")</div>
+            </div>
+        </div>
+        <div class="col-6 col-lg-3">
+            <div class="app-card kpi h-100 mb-0">
+                <div class="kpi-label">Regiones</div>
+                <div class="kpi-value">@porRegion.Count</div>
+            </div>
+        </div>
+        <div class="col-12 col-lg-6">
+            <div class="app-card kpi h-100 mb-0">
+                <div class="kpi-label">País más poblado</div>
+                @if (Model.PaisMasPoblado != null)
+                {
+                    <div class="kpi-value">@Model.PaisMasPoblado.Nombre</div>
+                    <div class="text-muted">@($"{Model.PaisMasPoblado.Poblacion:N0}") habitantes</div>
+                }
+                else
+                {
+                    <div class="kpi-value">—</div>
+                    <div class="text-muted">Sin datos</div>
+                }
+            </div>
+        </div>
+    </div>
+
+    <div class="row g-3">
+        <!-- Reporte 1: Cantidad de países por región -->
+        <div class="col-lg-6">
+            <div class="app-card h-100 mb-0">
+                <h5>Cantidad de países por región</h5>
+                @foreach (var r in porRegion)
+                {
+                    var pct = maxTotal > 0 ? (double)r.Total / maxTotal * 100 : 0;
+                    <div class="bar-row">
+                        <div class="bar-label">@(string.IsNullOrWhiteSpace(r.Region) ? "Sin región" : r.Region)</div>
+                        <div class="bar-track" role="img" aria-label="@r.Region: @r.Total países">
+                            <div class="bar-fill" style="width:@pct.ToString("0.##", System.Globalization.CultureInfo.InvariantCulture)%"></div>
+                        </div>
+                        <div class="bar-value">@r.Total</div>
+                    </div>
+                }
+            </div>
+        </div>
+
+        <!-- Reporte 3: Promedio poblacional por región -->
+        <div class="col-lg-6">
+            <div class="app-card h-100 mb-0">
+                <h5>Promedio poblacional por región</h5>
+                @foreach (var r in promedios)
+                {
+                    var pct = maxPromedio > 0 ? (double)r.PromedioPoblacion / (double)maxPromedio * 100 : 0;
+                    <div class="bar-row">
+                        <div class="bar-label">@(string.IsNullOrWhiteSpace(r.Region) ? "Sin región" : r.Region)</div>
+                        <div class="bar-track" role="img" aria-label="@r.Region: @r.PromedioPoblacion.ToString("N0") habitantes en promedio">
+                            <div class="bar-fill bar-fill-alt" style="width:@pct.ToString("0.##", System.Globalization.CultureInfo.InvariantCulture)%"></div>
+                        </div>
+                        <div class="bar-value">@r.PromedioPoblacion.ToString("N0")</div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
 }
-
-<!-- Reporte 1: Cantidad de países por región -->
-<h4>Cantidad de países por región</h4>
-<table class="table table-bordered w-auto">
-    <thead><tr><th>Región</th><th>Total</th></tr></thead>
-    <tbody>
-        @foreach (var r in Model.PaisesPorRegion)
-        {
-            <tr><td>@r.Region</td><td>@r.Total</td></tr>
-        }
-    </tbody>
-</table>
-
-<!-- Reporte 3: Promedio poblacional por región -->
-<h4>Promedio poblacional por región</h4>
-<table class="table table-bordered w-auto">
-    <thead><tr><th>Región</th><th>Promedio</th></tr></thead>
-    <tbody>
-        @foreach (var r in Model.PromedioPorRegion)
-        {
-            <tr><td>@r.Region</td><td>@r.PromedioPoblacion.ToString("N0")</td></tr>
-        }
-    </tbody>
-</table>

@@ -2,22 +2,31 @@
     ViewData["Title"] = "Consumo de API REST Countries";
 }
 
-<h2>Consumo de API REST Countries</h2>
-<p class="text-muted">ASP.NET Core MVC + Entity Framework Core + SQL Server</p>
-
-<a asp-action="Importar" class="btn btn-success mb-3">Importar Información</a>
-
-<hr />
-
-<h5>Importar un país por nombre (Actividad 1)</h5>
-<form asp-action="Buscar" method="post" class="row g-2 mb-3">
-    <div class="col-auto">
-        <input type="text" name="nombre" class="form-control" placeholder="Ej: ecuador" />
+<div class="page-header">
+    <div>
+        <h2>Consumo de API REST Countries</h2>
+        <p class="subtitle">ASP.NET Core MVC + Entity Framework Core + SQL Server</p>
     </div>
-    <div class="col-auto">
-        <button type="submit" class="btn btn-primary">Buscar</button>
+    <div>
+        <a asp-action="Lista" class="btn btn-outline-dark">Ver listado</a>
+        <a asp-action="Reportes" class="btn btn-outline-primary">Reportes</a>
     </div>
-</form>
+</div>
 
-<a asp-action="Lista" class="btn btn-outline-dark">Ver listado</a>
-<a asp-action="Reportes" class="btn btn-outline-info">Reportes</a>
+<div class="app-card">
+    <h5>Importar todos los países</h5>
+    <p class="text-muted mb-3">Descarga la información desde la API y la guarda en la base de datos.</p>
+    <a asp-action="Importar" class="btn btn-success">Importar información</a>
+</div>
+
+<div class="app-card">
+    <h5>Importar un país por nombre </h5>
+    <form asp-action="Buscar" method="post" class="row g-2">
+        <div class="col-12 col-sm">
+            <input type="text" name="nombre" class="form-control" placeholder="Ej: ecuador" />
+        </div>
+        <div class="col-12 col-sm-auto">
+            <button type="submit" class="btn btn-primary w-100">Buscar</button>
+        </div>
+    </form>
+</div>

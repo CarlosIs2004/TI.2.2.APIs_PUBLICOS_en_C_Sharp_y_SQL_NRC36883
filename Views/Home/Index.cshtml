@@ -1,8 +1,33 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Inicio";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<section class="hero">
+    <h1>Países y Universidades</h1>
+    <p>Importa información desde APIs públicas, guárdala en SQL Server y consúltala, edítala o genera reportes.</p>
+    <a asp-controller="Pais" asp-action="Index" class="btn btn-light btn-lg">Comenzar</a>
+</section>
+
+<div class="row g-3">
+    <div class="col-md-4">
+        <a asp-controller="Pais" asp-action="Lista" class="app-card feature-card">
+            <div class="feature-icon">🌎</div>
+            <h5>Países</h5>
+            <p>Listado, búsqueda y filtros por región.</p>
+        </a>
+    </div>
+    <div class="col-md-4">
+        <a asp-controller="Universidad" asp-action="Index" class="app-card feature-card">
+            <div class="feature-icon">🎓</div>
+            <h5>Universidades</h5>
+            <p>Consulta y administra universidades por país.</p>
+        </a>
+    </div>
+    <div class="col-md-4">
+        <a asp-controller="Pais" asp-action="Reportes" class="app-card feature-card">
+            <div class="feature-icon">📊</div>
+            <h5>Reportes</h5>
+            <p>Resúmenes y estadísticas de los datos.</p>
+        </a>
+    </div>
 </div>

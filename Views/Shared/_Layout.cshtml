@@ -1,36 +1,44 @@
 ﻿<!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - ApiPaisesMVC_SQLServer</title>
+    <title>@ViewData["Title"] - Países y Universidades</title>
     <script type="importmap"></script>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/ApiPaisesMVC_SQLServer.styles.css" asp-append-version="true" />
 </head>
 <body>
+    @{
+        var controladorActual = ViewContext.RouteData.Values["controller"]?.ToString() ?? "";
+        var accionActual = ViewContext.RouteData.Values["action"]?.ToString() ?? "";
+        string Activo(string controlador, string? accion = null) =>
+            controladorActual.Equals(controlador, StringComparison.OrdinalIgnoreCase)
+            && (accion is null || accionActual.Equals(accion, StringComparison.OrdinalIgnoreCase))
+                ? "active" : "";
+    }
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">ApiPaisesMVC_SQLServer</a>
+        <nav class="navbar navbar-expand-sm navbar-dark app-navbar mb-3">
+            <div class="container">
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">🌍 Países y Universidades</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
+                        aria-expanded="false" aria-label="Alternar navegación">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Pais" asp-action="Index">Inicio</a>
+                            <a class="nav-link @(controladorActual.Equals("Pais", StringComparison.OrdinalIgnoreCase) && accionActual.Equals("Index", StringComparison.OrdinalIgnoreCase) ? "active" : "")" asp-area="" asp-controller="Pais" asp-action="Index">Inicio</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Pais" asp-action="Lista">Países</a>
+                            <a class="nav-link @(controladorActual.Equals("Pais", StringComparison.OrdinalIgnoreCase) && !accionActual.Equals("Index", StringComparison.OrdinalIgnoreCase) && !accionActual.Equals("Reportes", StringComparison.OrdinalIgnoreCase) ? "active" : "")" asp-area="" asp-controller="Pais" asp-action="Lista">Países</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Pais" asp-action="Reportes">Reportes</a>
+                            <a class="nav-link @Activo("Pais", "Reportes")" asp-area="" asp-controller="Pais" asp-action="Reportes">Reportes</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Universidad" asp-action="Index">Universidades</a>
+                            <a class="nav-link @Activo("Universidad")" asp-area="" asp-controller="Universidad" asp-action="Index">Universidades</a>
                         </li>
                     </ul>
                 </div>
@@ -53,9 +61,9 @@
         </main>
     </div>
 
-    <footer class="border-top footer text-muted">
+    <footer class="footer text-muted">
         <div class="container">
-            &copy; 2026 - ApiPaisesMVC_SQLServer - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            &copy; 2026 - Países y Universidades - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacidad</a>
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
