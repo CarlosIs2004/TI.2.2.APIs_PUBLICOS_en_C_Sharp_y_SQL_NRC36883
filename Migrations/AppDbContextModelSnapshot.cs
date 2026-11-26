@@ -62,6 +62,9 @@ namespace ApiPaisesMVC_SQLServer.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("Nombre")
+                        .IsUnique();
+
                     b.ToTable("Paises");
                 });
 
@@ -94,6 +97,9 @@ namespace ApiPaisesMVC_SQLServer.Migrations
                         .HasColumnType("nvarchar(250)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Nombre", "Pais")
+                        .IsUnique();
 
                     b.ToTable("Universidades");
                 });
